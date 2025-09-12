@@ -3,9 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Campus Life Guide</title>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <header>
+        <h1>Campus Life Guide</h1>
+        <nav>
+            <ul>
+                <li><a href="#resources">Learning Resources</a></li>
+                <li><a href="#activities">Clubs & Activities</a></li>
+                <li><a href="#facilities">Campus Facilities</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="resources">
+            <article>
+                <h2>Learning Resources</h2>
+                <p>Introduction to library, labs, and study websites.</p>
+                <video controls width="400">
+                    <source src="media/promo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </article>
+        </section>
+
+        <section id="activities">
+            <article>
+                <h2>Club Schedule</h2>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Club</th>
+                            <th>Time</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Basketball Club</td>
+                            <td>Tuesday 6:00 PM</td>
+                            <td>Gym</td>
+                        </tr>
+                        <tr>
+                            <td>Guitar Club</td>
+                            <td>Friday 7:00 PM</td>
+                            <td>Music Room</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article>
+                <h3>Club Registration</h3>
+                <form>
+                    <label>Name:
+                        <input type="text" name="name" required>
+                    </label><br>
+                    <label>Email:
+                        <input type="email" name="email" required>
+                    </label><br>
+                    <label>Password:
+                        <input type="password" name="password" required>
+                    </label><br>
+                    <label>Choose an interest:
+                        <input list="interests" name="interest">
+                        <datalist id="interests">
+                            <option value="Basketball">
+                            <option value="Music">
+                            <option value="Art">
+                            <option value="Programming">
+                        </datalist>
+                    </label><br>
+                    <button type="submit">Submit</button>
+                </form>
+            </article>
+        </section>
+
+
+        <section id="facilities">
+            <article>
+                <h2>Campus Facilities</h2>
+                <figure>
+                    <img src="images/library.jpg" alt="Library" width="300">
+                    <figcaption>University Library</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/cafeteria.jpg" alt="Cafeteria" width="300">
+                    <figcaption>Student Cafeteria</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/dorm.jpg" alt="Dormitory" width="300">
+                    <figcaption>Student Dormitory</figcaption>
+                </figure>
+            </article>
+        </section>
+
+
+        <aside>
+            <h2>Announcements</h2>
+            <details>
+                <summary>Sports Day</summary>
+                <p>Sports Day will be held next Friday at the playground. All students and staff are welcome!</p>
+            </details>
+            <h3>University Anthem</h3>
+            <audio controls>
+                <source src="media/anthem.mp3" type="audio/mpeg">
+                Your browser does not support the audio tag.
+            </audio>
+        </aside>
+    </main>
+
+    <footer id="contact">
+        <p>Contact Information:</p>
+        <p>Phone: <a href="tel:+1234567890">+1 234 567 890</a></p>
+        <p>Email: <a href="mailto:info@university.edu">info@university.edu</a></p>
+        <p>&copy; 2025 Campus Life Guide</p>
+    </footer>
 </body>
 </html>
