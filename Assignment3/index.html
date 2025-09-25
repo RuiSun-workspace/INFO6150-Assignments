@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assignment 3 – Interactive Table</title>
+  <style>
+    :root{
+      --gray-100:#f3f4f6;
+      --gray-300:#d1d5db;
+      --gray-700:#374151;
+      --white:#ffffff;
+      --orange:#f59e0b; 
+      --yellow:#fff59d; 
+      --green:#059669;
+      --red:#dc2626;
+      --blue:#2563eb;
+    }
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--gray-700);
+      background: var(--gray-100);
+      line-height: 1.5;
+    }
+
+    header{
+      position: sticky; top: 0; z-index: 10;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-300);
+      padding: 12px 16px;
+    }
+    header .meta{
+      display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: flex-end;
+      max-width: 1000px; margin: 0 auto;
+    }
+
+    .id-banner{
+      max-width: 1000px; margin: 16px auto 8px; padding: 10px 12px;
+      text-align: center; font-weight: 600;
+      background: #ecfdf5; color:#065f46; border: 1px solid #a7f3d0; border-radius: 10px;
+    }
+
+    button{
+      border: 0; border-radius: 10px;
+      padding: 8px 12px; font-weight: 600; cursor: pointer;
+      background: var(--blue); color: white;
+      transition: transform .05s ease, box-shadow .2s ease, background .2s ease, opacity .2s ease;
+      box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    }
+    button:active{ transform: translateY(1px); }
+    button.secondary{ background: var(--green); }
+    button.danger{ background: var(--red); }
+
+    #btn-submit[disabled]{
+      background: #9ca3af; 
+      cursor: not-allowed; opacity: .7;
+    }
+    #btn-submit.enabled{
+      background: var(--orange);
+    }
+
+    main{ max-width: 1000px; margin: 0 auto 48px; padding: 0 16px; }
+    .table-wrap{
+      background: var(--white); border: 1px solid var(--gray-300); border-radius: 14px;
+      overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    }
+    table{ width: 100%; border-collapse: collapse; }
+    caption{ text-align: left; padding: 12px 16px; font-weight: 700; }
+    thead th{
+      background: #eef2ff; color:#111827; text-align: left;
+      border-bottom: 1px solid var(--gray-300);
+      padding: 10px 12px; font-size: .95rem;
+    }
+    tbody td{
+      padding: 10px 12px; border-bottom: 1px solid var(--gray-300);
+      vertical-align: middle;
+    }
+    tbody tr:last-of-type td{ border-bottom: none; }
+
+    tr.main.selected{ background: var(--yellow); }
+
+    .toggle{
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 8px; background: #ecfeff;
+    }
+    .toggle svg{ width: 18px; height: 18px; transition: transform .2s ease; }
+    .toggle[aria-expanded="true"] svg{ transform: rotate(90deg); }
+
+    .cell-actions{ display: flex; gap: 6px; }
+    .hide{ display: none !important; }
+
+    /* Details row */
+    tr.details{ background: #fafafa; }
+    tr.details[hidden]{ display: none; }
+    .details-cell{ padding: 12px 16px; color: #4b5563; }
+
+    dialog{
+      border: 0; border-radius: 12px; padding: 0; width: min(480px, 90vw);
+      box-shadow: 0 24px 48px rgba(0,0,0,.2);
+    }
+    .dialog-head{ padding: 14px 16px; background: #111827; color: white; border-top-left-radius:12px; border-top-right-radius:12px; }
+    .dialog-body{ padding: 16px; }
+    .dialog-actions{ display: flex; justify-content: flex-end; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--gray-300); }
+
+    @media (max-width: 640px){
+      thead th:nth-child(3), tbody td:nth-child(3){ min-width: 120px; }
+      thead th:nth-child(4), tbody td:nth-child(4){ min-width: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="meta">
+      <div class="actions">
+        <button id="btn-add" class="secondary" type="button" title="Add New Student">Add New Student</button>
+        <button id="btn-submit" type="button" disabled title="Submit (enabled when at least one row is selected)">Submit</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="id-banner" id="idBanner">
+      Full Name: <strong id="fullName">RUI SUN</strong>
+      &nbsp;•&nbsp;
+      NUID: <strong id="nuid">002500092</strong>
+    </div>
+
+    <div class="table-wrap">
+      <table aria-describedby="table-caption">
+        <caption id="table-caption">Student Records</caption>
+        <thead>
+          <tr>
+            <th scope="col" style="width:48px;">&nbsp;</th>
+            <th scope="col" style="width:72px;">Select</th>
+            <th scope="col">Student</th>
+            <th scope="col">Teacher</th>
+            <th scope="col" style="width:150px;">EDIT</th>
+            <th scope="col" style="width:150px;">DELETE</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+        <tfoot>
+          <tr><td colspan="6" style="padding:12px 16px; color:#6b7280;">Tip: Use “Add New Student” to insert rows. Select a row to enable Edit/Delete and Submit.</td></tr>
+        </tfoot>
+      </table>
+    </div>
+  </main>
+
+  <dialog id="editDialog">
+    <div class="dialog-head"><span id="dlgTitle">Edit details</span></div>
+    <div class="dialog-body">
+      <label for="dlgInput" id="dlgLabel" style="display:block; margin-bottom:6px;">Enter new details:</label>
+      <input id="dlgInput" type="text" style="width:100%; padding:10px; border:1px solid #d1d5db; border-radius:8px;" />
+    </div>
+    <div class="dialog-actions">
+      <button type="button" id="dlgCancel">Cancel</button>
+      <button type="button" id="dlgOk" class="secondary">OK</button>
+    </div>
+  </dialog>
+
+  <script>
+
+
+    const tbody = document.getElementById('tbody');
+    const btnAdd = document.getElementById('btn-add');
+    const btnSubmit = document.getElementById('btn-submit');
+
+    const dlg = document.getElementById('editDialog');
+    const dlgTitle = document.getElementById('dlgTitle');
+    const dlgLabel = document.getElementById('dlgLabel');
+    const dlgInput = document.getElementById('dlgInput');
+    const dlgCancel = document.getElementById('dlgCancel');
+    const dlgOk = document.getElementById('dlgOk');
+
+    const QS = (el, sel) => el.querySelector(sel);
+    const QSA = (el, sel) => Array.from(el.querySelectorAll(sel));
+
+    function currentCount(){
+      return QSA(tbody, 'tr.main').length;
+    }
+
+    function makeArrowButton(){
+      const btn = document.createElement('button');
+      btn.className = 'toggle';
+      btn.type = 'button';
+      btn.setAttribute('aria-expanded','false');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M8 4l8 8-8 8" stroke="#065f46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      return btn;
+    }
+
+    function makeCheckbox(id){
+      const inp = document.createElement('input');
+      inp.type = 'checkbox';
+      inp.setAttribute('aria-label', 'Select Student ' + id);
+      return inp;
+    }
+
+    function makeMainRow(id){
+      const tr = document.createElement('tr');
+      tr.className = 'main';
+      tr.dataset.id = String(id);
+
+      const tdArrow = document.createElement('td');
+      const tdSel = document.createElement('td');
+      const tdStudent = document.createElement('td');
+      const tdTeacher = document.createElement('td');
+      const tdEdit = document.createElement('td');
+      const tdDelete = document.createElement('td');
+
+      const toggleBtn = makeArrowButton();
+      tdArrow.appendChild(toggleBtn);
+
+      tdSel.appendChild(makeCheckbox(id));
+
+      tdStudent.className = 'col-student';
+      tdTeacher.className = 'col-teacher';
+      tdStudent.textContent = 'Student ' + id;
+      tdTeacher.textContent = 'Teacher ' + id;
+
+      tdEdit.className = 'cell-actions';
+      tdDelete.className = 'cell-actions';
+
+      tr.append(tdArrow, tdSel, tdStudent, tdTeacher, tdEdit, tdDelete);
+      return tr;
+    }
+
+    function makeDetailsRow(id){
+      const tr = document.createElement('tr');
+      tr.className = 'details';
+      tr.hidden = true;
+      const td = document.createElement('td');
+      td.colSpan = 6;
+      td.className = 'details-cell';
+      td.textContent = 'Details for Student ' + id + ' (expand/collapse via the green arrow).';
+      tr.appendChild(td);
+      return tr;
+    }
+
+    function addRow(){
+      try{
+        const id = currentCount() + 1; 
+        const main = makeMainRow(id);
+        const details = makeDetailsRow(id);
+        tbody.append(main, details);
+        alert('Student ' + id + ' Record added successfully');
+        applyExistingCSS(main);
+      }catch(e){
+        console.error(e);
+        alert('Add record failed');
+      }
+      updateSubmitState();
+    }
+
+    function applyExistingCSS(row){
+      return row;
+    }
+
+    function renumberAll(){
+      QSA(tbody, 'tr.main').forEach((tr, idx) => {
+        const newId = idx + 1;
+        tr.dataset.id = String(newId);
+        QS(tr, '.col-student').textContent = 'Student ' + newId;
+        QS(tr, '.col-teacher').textContent = 'Teacher ' + newId;
+        const cb = QS(tr, 'input[type="checkbox"]');
+        if (cb) cb.setAttribute('aria-label', 'Select Student ' + newId);
+
+        const details = tr.nextElementSibling;
+        if (details && details.classList.contains('details')) {
+          details.firstElementChild.textContent = 'Details for Student ' + newId + ' (expand/collapse via the green arrow).';
+        }
+      });
+    }
+
+    function updateSubmitState(){
+      const anyChecked = QSA(tbody, 'tr.main input[type="checkbox"]:checked').length > 0;
+      btnSubmit.disabled = !anyChecked;
+      btnSubmit.classList.toggle('enabled', anyChecked);
+    }
+
+    function ensureRowButtons(tr){
+      const cellEdit = tr.children[4];
+      const cellDelete = tr.children[5];
+
+      if (!cellEdit.querySelector('.btn-edit')){
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'btn-edit secondary'; b.textContent = 'Edit';
+        cellEdit.appendChild(b);
+      }
+      if (!cellDelete.querySelector('.btn-delete')){
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'btn-delete danger'; b.textContent = 'Delete';
+        cellDelete.appendChild(b);
+      }
+    }
+
+    function removeRowButtons(tr){
+      const editBtn = tr.querySelector('.btn-edit');
+      const delBtn = tr.querySelector('.btn-delete');
+      if (editBtn) editBtn.remove();
+      if (delBtn) delBtn.remove();
+    }
+
+    btnAdd.addEventListener('click', addRow);
+
+    btnSubmit.addEventListener('click', () => {
+      const selected = QSA(tbody, 'tr.main input[type="checkbox"]:checked')
+        .map(cb => cb.closest('tr.main'))
+        .map(tr => QS(tr, '.col-student').textContent);
+      alert('Submitting: ' + (selected.join(', ') || 'No selection'));
+    });
+
+    tbody.addEventListener('change', (e) => {
+      const t = e.target;
+      if (t.matches('input[type="checkbox"]')){
+        const tr = t.closest('tr.main');
+        if (!tr) return;
+        const checked = t.checked;
+        tr.classList.toggle('selected', checked);
+        if (checked){
+          ensureRowButtons(tr);
+        } else {
+          removeRowButtons(tr);
+        }
+        updateSubmitState();
+      }
+    });
+
+    tbody.addEventListener('click', (e) => {
+      const t = e.target;
+
+      if (t.closest('.toggle')){
+        const btn = t.closest('.toggle');
+        const main = btn.closest('tr.main');
+        const details = main.nextElementSibling;
+        if (details && details.classList.contains('details')){
+          const nowExpanded = details.hidden;
+          details.hidden = !nowExpanded;
+          btn.setAttribute('aria-expanded', String(nowExpanded));
+        }
+        return;
+      }
+
+      if (t.closest('.btn-delete')){
+        const main = t.closest('tr.main');
+        if (!main) return;
+        const studentName = QS(main, '.col-student').textContent;
+        const details = main.nextElementSibling;
+        if (details && details.classList.contains('details')) details.remove();
+        main.remove();
+        renumberAll();
+        updateSubmitState();
+        alert(studentName + ' Record deleted successfully');
+        return;
+      }
+
+      if (t.closest('.btn-edit')){
+        const main = t.closest('tr.main');
+        if (!main) return;
+        const idText = QS(main, '.col-student').textContent; // e.g., "Student 2"
+        openEditDialog(idText);
+        return;
+      }
+    });
+
+    function openEditDialog(studentLabel){
+      const idNum = (studentLabel.match(/Student\s+(\d+)/) || [,''])[1];
+      dlgTitle.textContent = 'Edit details of Student ' + idNum;
+      dlgLabel.textContent = 'Enter new details for ' + studentLabel + ':';
+      dlgInput.value = '';
+      if (typeof dlg.showModal === 'function'){
+        dlg.showModal();
+      } else {
+        const v = prompt('Edit details of ' + studentLabel + ':', '');
+        if (v && v.trim()){
+          alert(studentLabel + ' data updated successfully');
+        }
+        return;
+      }
+    }
+    dlgCancel.addEventListener('click', ()=> dlg.close());
+    dlgOk.addEventListener('click', ()=>{
+      const val = dlgInput.value.trim();
+      const title = dlgTitle.textContent || 'Student';
+      if (val){
+        const match = title.match(/Student\s+(\d+)/);
+        const label = match ? ('Student ' + match[1]) : 'Student';
+        alert(label + ' data updated successfully');
+      }
+      dlg.close();
+    });
+
+    addRow();
+  </script>
+</body>
+</html>
