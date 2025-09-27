@@ -1,8 +1,7 @@
 :root{
-  /* Submit 启用色：按 7b 规范使用“橙色” */
-  --submit-enabled: #f97316;  /* orange-500 */
-  --submit-disabled: #9ca3af; /* gray-400 */
-  --row-highlight: #fff59d;   /* 选中行高亮（黄色） */
+  --submit-enabled: #f97316;  
+  --submit-disabled: #9ca3af; 
+  --row-highlight: #fff59d;   
   --border:#e5e7eb;
   --text:#111827;
   --muted:#6b7280;
