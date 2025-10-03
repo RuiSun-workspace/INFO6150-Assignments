@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <title>Feedback</title>
+  <style>
+    label {	float: left;
+			width: 150px;}
+      #container{
+          width: 700px;
+          margin: auto;
+          background-color: beige;
+      } 
+      main{
+          padding: 50px;
+      }
+  </style>
+ </head>
+ <head>
+  <title>Feedback</title>
+  <link rel="stylesheet" href="styles.css">
+ </head>
+ <body>
+
+ <button id="ai-assistant-btn">🤖 AI Assistant</button>
+ 
+
+ <div id="chat-window">
+     <div id="chat-header">
+         <span>AI Assistant</span>
+         <button id="close-chat">&times;</button>
+     </div>
+     <div id="chat-messages">
+         <div class="chat-message bot-message">
+             Hello! I'm here to help you with questions about filling out this form. Try asking me about email requirements, phone format, or any other form-related questions!
+         </div>
+     </div>
+     <div id="chat-input-container">
+         <input type="text" id="chat-input" placeholder="Ask me anything about the form...">
+         <button id="send-chat">Send</button>
+     </div>
+ </div>
+ 
+ <div id="container">
+	 <main>
+	 <h2>Feedback</h2>
+	 <h3>Love something? Hate something? Let us know!</h3>
+		 Note : Fields marked with an asterisk(*) are mandatory
+		 <br><br>
+		 <form id="feedback-form" method="post" novalidate>
+		 
+			<div class="form-group">
+			    <label>Title*:</label>
+			    <div>
+    			    <input type="radio" name="title" id="miss" value="miss" required="required"/>Miss
+    			    <input type="radio" name="title" id="mr" value="mr" required="required"/>Mr.
+    			    <input type="radio" name="title" id="mrs" value="mrs" required="required"/>Mrs.
+			    </div>
+			    <span class="error-message" id="error-title">Please select a title</span>
+			</div>
+			
+			<div class="form-group">
+			    <label for="firstName">First Name*:</label>
+			    <input type="text" name="firstName" id="firstName" placeholder="First Name" />	
+			    <span class="error-message" id="error-firstName"></span>
+			</div>
+
+			<div class="form-group">
+			    <label for="lastName">Last Name*:</label>
+			    <input type="text" name="lastName" id="lastName" placeholder="Last Name" />
+			    <span class="error-message" id="error-lastName"></span>
+			</div>
+
+			<div class="form-group">
+			    <label for="emailId">Email Id*:</label>
+			    <input type="text" name="emailId" id="emailId" placeholder="yourname@northeastern.edu" />
+			    <span class="error-message" id="error-emailId"></span>
+			</div>
+
+			<div class="form-group">
+			    <label for="phoneNumber">Phone Number*:</label>
+			    <input type="text" name="phoneNumber" id="phoneNumber" placeholder="(XXX) XXX-XXXX" maxlength="14" />
+			    <span class="error-message" id="error-phoneNumber"></span>
+			</div>
+			
+            <div class="form-group">
+                <label for="zipcode">ZipCode*:</label>
+			    <input type="text" name="zipcode" id="zipcode" placeholder="XXXXX" maxlength="5" />
+			    <span class="error-message" id="error-zipcode"></span>
+			</div>
+			
+			<div class="form-group">
+                <label for="streetAddress1">Street Address 1*:</label>
+			    <input type="text" name="streetAddress1" id="streetAddress1" placeholder="Street Address 1" />
+			    <span class="error-message" id="error-streetAddress1"></span>
+			</div>
+			
+			<div class="form-group">
+                <label for="streetAddress2">Street Address 2:</label>
+			    <input type="text" name="streetAddress2" id="streetAddress2" placeholder="Apt, Suite, Unit (Optional)" maxlength="50" />
+			    <div class="char-counter" id="counter-streetAddress2">0/50 characters used</div>
+			</div>
+             
+            <div class="form-group">
+                <label for="hearAbout">How did you hear*:</label>
+                <div>
+    			    <input type='checkbox' name="source" value="facebook" id="source-facebook" /> Facebook
+                    <input type='checkbox' name="source" value="google" id="source-google" /> Google
+                    <input type='checkbox' name="source" value="yelp" id="source-yelp" /> Yelp 
+                </div>
+			    <span class="error-message" id="error-source">Please select at least one source</span>
+			</div>
+			
+			<div class="form-group">
+                <label for="drinkSelect">Select a Drink*:</label>
+                <select name="drinkSelect" id="drinkSelect">
+                    <option value="">-- Choose a drink --</option>
+                    <option value="Hot Black Tea - Keemun">Hot Black Tea - Keemun</option>
+                    <option value="Iced Coffee">Iced Coffee</option>
+                    <option value="Green Tea Latte">Green Tea Latte</option>
+                    <option value="Orange Juice">Orange Juice</option>
+                    <option value="Smoothie">Smoothie</option>
+                </select>
+                <span class="error-message" id="error-drinkSelect">Please select a drink</span>
+                <div id="dynamic-checkbox-area"></div>
+			</div>
+             
+			<div class="form-group">
+			    <label for="comments">Comments*:</label>
+			    <textarea name="comments" id="comments" placeholder="Your comments" rows="5" cols="25"></textarea>
+			    <span class="error-message" id="error-comments"></span>
+			</div>
+			
+			<div class="form-group">
+			    <label></label>
+			    <input type="submit" value="Submit" id="submit-btn" disabled>
+			    <input type="reset" value="Reset">
+			</div>
+		 </form>
+	 </main>
+ </div>
+
+ <div id="results-container">
+     <h2 style="text-align: center;">Submission Results</h2>
+     <table id="results-table">
+         <thead>
+             <tr>
+                 <th>Title</th>
+                 <th>First Name</th>
+                 <th>Last Name</th>
+                 <th>Email</th>
+                 <th>Phone</th>
+                 <th>Zip Code</th>
+                 <th>Address 1</th>
+                 <th>Address 2</th>
+                 <th>Source</th>
+                 <th>Drink</th>
+                 <th>Comments</th>
+             </tr>
+         </thead>
+         <tbody id="results-body">
+         </tbody>
+     </table>
+ </div>
+
+ <script>
+ console.log("Form structure ready - Step 1 Complete!");
+
+ const aiBtn = document.getElementById('ai-assistant-btn');
+ const chatWindow = document.getElementById('chat-window');
+ const closeChat = document.getElementById('close-chat');
+ 
+ aiBtn.addEventListener('click', () => {
+     chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
+ });
+ 
+ closeChat.addEventListener('click', () => {
+     chatWindow.style.display = 'none';
+ });
+ </script>
+
+ </body>
+</html>
