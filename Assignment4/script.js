@@ -290,3 +290,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+function handleDrinkSelection(event) {
+    const selectedDrink = event.target.value;
+    const dynamicArea = document.getElementById('dynamic-checkbox-area');
+
+    dynamicArea.innerHTML = '';
+    
+    if (selectedDrink && selectedDrink !== '') {
+        const checkboxDiv = document.createElement('div');
+        checkboxDiv.className = 'dynamic-checkbox-item';
+        checkboxDiv.id = 'large-drink-option';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'large-drink-checkbox';
+        checkbox.name = 'largeDrink';
+        checkbox.value = 'yes';
+        
+        const label = document.createElement('label');
+        label.htmlFor = 'large-drink-checkbox';
+        label.textContent = ' Large drink (75¢ extra)';
+        label.style.float = 'none';
+        label.style.width = 'auto';
+        
+        checkboxDiv.appendChild(checkbox);
+        checkboxDiv.appendChild(label);
+        dynamicArea.appendChild(checkboxDiv);
+        
+        checkbox.addEventListener('change', (e) => {
+            handleLargeDrinkCheckbox(e.target.checked);
+        });
+    }
+}
+
+function handleLargeDrinkCheckbox(isChecked) {
+    const dynamicArea = document.getElementById('dynamic-checkbox-area');
+    const existingTextField = document.getElementById('large-drink-text-field');
+    
+    if (isChecked) {
+        if (!existingTextField) {
+            const textFieldDiv = document.createElement('div');
+            textFieldDiv.className = 'dynamic-text-field';
+            textFieldDiv.id = 'large-drink-text-field';
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.id = 'large-drink-details';
+            input.name = 'largeDrinkDetails';
+            input.placeholder = 'Enter special instructions (required)';
+            input.required = true;
+            
+            const errorSpan = document.createElement('span');
+            errorSpan.className = 'error-message';
+            errorSpan.id = 'error-largeDrinkDetails';
+            errorSpan.style.marginLeft = '0';
+            
+            textFieldDiv.appendChild(input);
+            textFieldDiv.appendChild(errorSpan);
+            dynamicArea.appendChild(textFieldDiv);
+            
+            input.addEventListener('input', (e) => {
+                validateDynamicTextField(e.target.value);
+            });
+        }
+    } else {
+        if (existingTextField) {
+            existingTextField.remove();
+        }
+    }
+}
+
+  
