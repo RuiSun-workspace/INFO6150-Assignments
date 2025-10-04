@@ -117,7 +117,7 @@ function validateField(fieldName, value) {
 
         case 'drinkSelect':
             isValid = value && value !== '';
-            errorMessage = 'Please select a drink';
+            errorMessage = 'Please select your favorite drink';
             break;
 
         case 'comments':
@@ -360,4 +360,167 @@ function handleLargeDrinkCheckbox(isChecked) {
     }
 }
 
-  
+function validateDynamicTextField(value) {
+    const errorElement = document.getElementById('error-largeDrinkDetails');
+    if (!value || value.trim() === '') {
+        if (errorElement) {
+            errorElement.textContent = 'This field is required when checkbox is selected';
+            errorElement.style.display = 'block';
+        }
+        return false;
+    } else {
+        if (errorElement) {
+            errorElement.style.display = 'none';
+        }
+        return true;
+    }
+}
+
+
+
+function handleFormSubmit(event) {
+    event.preventDefault();
+    
+    const largeDrinkCheckbox = document.getElementById('large-drink-checkbox');
+    if (largeDrinkCheckbox && largeDrinkCheckbox.checked) {
+        const largeDrinkDetails = document.getElementById('large-drink-details');
+        if (!largeDrinkDetails || !validateDynamicTextField(largeDrinkDetails.value)) {
+            alert('Please fill in the required field for large drink details.');
+            return;
+        }
+    }
+    
+    const formData = {
+        title: document.querySelector('input[name="title"]:checked').value,
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        emailId: document.getElementById('emailId').value,
+        phoneNumber: document.getElementById('phoneNumber').value,
+        zipcode: document.getElementById('zipcode').value,
+        streetAddress1: document.getElementById('streetAddress1').value,
+        streetAddress2: document.getElementById('streetAddress2').value || '',
+        source: Array.from(document.querySelectorAll('input[name="source"]:checked'))
+                     .map(cb => cb.value).join(', '),
+        drinkSelect: document.getElementById('drinkSelect').value,
+        largeDrink: largeDrinkCheckbox && largeDrinkCheckbox.checked ? 
+                    document.getElementById('large-drink-details').value : 'N/A',
+        comments: document.getElementById('comments').value
+    };
+    
+    formSubmissions.push(formData);
+
+    displayResults();
+    
+    document.getElementById('feedback-form').reset();
+
+    Object.keys(validationState).forEach(key => {
+        validationState[key] = false;
+        hideError(key);
+    });
+
+    document.getElementById('dynamic-checkbox-area').innerHTML = '';
+
+    updateCharCounter();
+
+    checkFormValidity();
+
+    alert('Form submitted successfully!');
+}
+
+function displayResults() {
+    const resultsContainer = document.getElementById('results-container');
+    const resultsBody = document.getElementById('results-body');
+    
+    resultsBody.innerHTML = '';
+
+    formSubmissions.forEach((data, index) => {
+        const row = document.createElement('tr');
+        
+        row.innerHTML = `
+            <td>${data.title}</td>
+            <td>${data.firstName}</td>
+            <td>${data.lastName}</td>
+            <td>${data.emailId}</td>
+            <td>${data.phoneNumber}</td>
+            <td>${data.zipcode}</td>
+            <td>${data.streetAddress1}</td>
+            <td>${data.streetAddress2}</td>
+            <td>${data.source}</td>
+            <td>${data.drinkSelect}${data.largeDrink !== 'N/A' ? ' (Large: ' + data.largeDrink + ')' : ''}</td>
+            <td>${data.comments}</td>
+        `;
+        
+        resultsBody.appendChild(row);
+    });
+    
+    resultsContainer.style.display = 'block';
+}
+
+
+const faqs = {
+    email: "You must use your Northeastern email address ending with @northeastern.edu (example: student@northeastern.edu).",
+    phone: "The phone number must be in the format (XXX) XXX-XXXX. For example: (617) 123-4567.",
+    zip: "The zip code must be exactly 5 digits. For example: 02115.",
+    zipcode: "The zip code must be exactly 5 digits. For example: 02115.",
+    required: "All fields are required except Street Address 2, which is optional.",
+    address: "Street Address 2 is optional. If you don't have an apartment, suite, or unit number, you can leave it blank.",
+    title: "Please select your title: Miss, Mr., or Mrs.",
+    source: "Please select at least one option for how you heard about us: Facebook, Google, or Yelp.",
+    format: "Please make sure all fields are filled correctly. Phone: (XXX) XXX-XXXX, Email: @northeastern.edu, Zip: 5 digits."
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-chat');
+    
+    sendBtn.addEventListener('click', () => {
+        const message = chatInput.value.trim();
+        if (message) {
+            handleChatMessage(message);
+            chatInput.value = '';
+        }
+    });
+    
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const message = chatInput.value.trim();
+            if (message) {
+                handleChatMessage(message);
+                chatInput.value = '';
+            }
+        }
+    });
+});
+
+function handleChatMessage(message) {
+    addChatMessage(message, true);
+    
+    const answer = findAnswer(message);
+    
+    setTimeout(() => {
+        addChatMessage(answer, false);
+    }, 500);
+}
+
+function findAnswer(question) {
+    const lowerQuestion = question.toLowerCase();
+    
+    for (let keyword in faqs) {
+        if (lowerQuestion.includes(keyword)) {
+            return faqs[keyword];
+        }
+    }
+
+    return "Sorry, I don't know that yet. Please check the instructions or try asking about: email format, phone format, zip code, required fields, or address fields.";
+}
+
+function addChatMessage(message, isUser) {
+    const chatMessages = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message ${isUser ? 'user-message' : 'bot-message'}`;
+    messageDiv.textContent = message;
+    
+    chatMessages.appendChild(messageDiv);
+    
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}

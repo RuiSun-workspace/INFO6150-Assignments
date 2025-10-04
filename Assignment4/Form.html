@@ -96,16 +96,16 @@
 			</div>
 			
 			<div class="form-group">
-                <label for="drinkSelect">Select a Drink*:</label>
+                <label for="drinkSelect">Select a your favorite drink*:</label>
                 <select name="drinkSelect" id="drinkSelect">
                     <option value="">-- Choose a drink --</option>
-                    <option value="Hot Black Tea - Keemun">Hot Black Tea - Keemun</option>
+                    <option value="Hot Black Tea">Hot Black Tea </option>
                     <option value="Iced Coffee">Iced Coffee</option>
                     <option value="Green Tea Latte">Green Tea Latte</option>
                     <option value="Orange Juice">Orange Juice</option>
                     <option value="Smoothie">Smoothie</option>
                 </select>
-                <span class="error-message" id="error-drinkSelect">Please select a drink</span>
+                <span class="error-message" id="error-drinkSelect">Please select your favorite drink</span>
                 <div id="dynamic-checkbox-area"></div>
 			</div>
              
@@ -147,21 +147,7 @@
      </table>
  </div>
 
- <script>
- console.log("Form structure ready - Step 1 Complete!");
-
- const aiBtn = document.getElementById('ai-assistant-btn');
- const chatWindow = document.getElementById('chat-window');
- const closeChat = document.getElementById('close-chat');
+ <script src="script.js"></script>
  
- aiBtn.addEventListener('click', () => {
-     chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
- });
- 
- closeChat.addEventListener('click', () => {
-     chatWindow.style.display = 'none';
- });
- </script>
-
  </body>
 </html>
