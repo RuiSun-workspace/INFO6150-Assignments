@@ -146,3 +146,25 @@ function validateField(fieldName, value) {
     return isValid;
 }
 
+function showError(fieldName, message) {
+    const errorElement = document.getElementById(`error-${fieldName}`);
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+}
+
+function hideError(fieldName) {
+    const errorElement = document.getElementById(`error-${fieldName}`);
+    if (errorElement) {
+        errorElement.style.display = 'none';
+    }
+}
+
+function checkFormValidity() {
+    const allValid = Object.values(validationState).every(value => value === true);
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = !allValid;
+}
+
+
