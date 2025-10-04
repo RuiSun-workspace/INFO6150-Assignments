@@ -168,3 +168,125 @@ function checkFormValidity() {
 }
 
 
+function formatPhoneNumber(input) {
+    let value = input.value.replace(/\D/g, '');
+    
+
+    value = value.substring(0, 10);
+
+    let formattedValue = '';
+    if (value.length > 0) {
+        formattedValue = '(' + value.substring(0, 3);
+    }
+    if (value.length >= 4) {
+        formattedValue += ') ' + value.substring(3, 6);
+    }
+    if (value.length >= 7) {
+        formattedValue += '-' + value.substring(6, 10);
+    }
+    
+    input.value = formattedValue;
+
+    validateField('phoneNumber', formattedValue);
+}
+
+
+
+function updateCharCounter() {
+    const address2Input = document.getElementById('streetAddress2');
+    const counter = document.getElementById('counter-streetAddress2');
+    
+    if (address2Input && counter) {
+        const currentLength = address2Input.value.length;
+        const maxLength = 50;
+        counter.textContent = `${currentLength}/${maxLength} characters used`;
+    }
+}
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM loaded - Initializing event listeners");
+    
+    const titleRadios = document.querySelectorAll('input[name="title"]');
+    titleRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            validateField('title', radio.value);
+        });
+    });
+
+    const firstNameInput = document.getElementById('firstName');
+    firstNameInput.addEventListener('input', (e) => {
+        validateField('firstName', e.target.value);
+    });
+    
+    const lastNameInput = document.getElementById('lastName');
+    lastNameInput.addEventListener('input', (e) => {
+        validateField('lastName', e.target.value);
+    });
+
+    const emailInput = document.getElementById('emailId');
+    emailInput.addEventListener('input', (e) => {
+        validateField('emailId', e.target.value);
+    });
+
+    const phoneInput = document.getElementById('phoneNumber');
+    phoneInput.addEventListener('input', (e) => {
+        formatPhoneNumber(e.target);
+    });
+
+    const zipInput = document.getElementById('zipcode');
+    zipInput.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\D/g, '');
+        validateField('zipcode', e.target.value);
+    });
+    
+
+    const address1Input = document.getElementById('streetAddress1');
+    address1Input.addEventListener('input', (e) => {
+        validateField('streetAddress1', e.target.value);
+    });
+
+    const address2Input = document.getElementById('streetAddress2');
+    address2Input.addEventListener('input', updateCharCounter);
+    
+    const sourceCheckboxes = document.querySelectorAll('input[name="source"]');
+    sourceCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            validateField('source', null);
+        });
+    });
+
+    const drinkSelect = document.getElementById('drinkSelect');
+    drinkSelect.addEventListener('change', (e) => {
+        validateField('drinkSelect', e.target.value);
+        handleDrinkSelection(e);
+    });
+    
+    const commentsInput = document.getElementById('comments');
+    commentsInput.addEventListener('input', (e) => {
+        validateField('comments', e.target.value);
+    });
+    
+    const form = document.getElementById('feedback-form');
+    form.addEventListener('submit', handleFormSubmit);
+    
+    form.addEventListener('reset', () => {
+        Object.keys(validationState).forEach(key => {
+            validationState[key] = false;
+            hideError(key);
+        });
+        
+        const dynamicArea = document.getElementById('dynamic-checkbox-area');
+        dynamicArea.innerHTML = '';
+        
+        updateCharCounter();
+        
+        checkFormValidity();
+    });
+    
+    console.log("All event listeners initialized!");
+});
+
+
+
