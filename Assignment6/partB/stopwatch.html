@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Stopwatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="stopwatch-card">
+            <h1>Event Stopwatch</h1>
+            
+            <div class="timer-display" id="timerDisplay">00:00:00</div>
+            
+            <div class="event-details">
+                <div class="form-group">
+                    <label for="eventDate">Event Date</label>
+                    <input type="date" id="eventDate" name="eventDate" lang="en">
+                    <span class="error-message" id="dateError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventName">Event Name</label>
+                    <input type="text" id="eventName" name="eventName" placeholder="What are you timing?">
+                    <span class="error-message" id="nameError"></span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="startBtn" class="control-btn start-btn">Start</button>
+                <button id="pauseBtn" class="control-btn pause-btn" disabled>Pause</button>
+                <button id="stopBtn" class="control-btn stop-btn" disabled>Stop & Save</button>
+                <button id="resetBtn" class="control-btn reset-btn">Reset</button>
+            </div>
+        </div>
+
+        <div class="history-card">
+            <div class="history-header">
+                <h2>Session History</h2>
+                <div class="statistics">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Sessions:</span>
+                        <span class="stat-value" id="totalSessions">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Time:</span>
+                        <span class="stat-value" id="totalTime">00:00:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <label for="filterDate">Filter by Date:</label>
+                <input type="date" id="filterDate" name="filterDate" lang="en">
+                <button id="clearFilterBtn" class="clear-filter-btn">Clear Filter</button>
+            </div>
+
+            <div id="historyList" class="history-list">
+                <p class="no-sessions">No sessions recorded yet</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="stopwatch.js"></script>
+</body>
+</html>
