@@ -1,16 +1,13 @@
 $(document).ready(function() {
-    // Hardcoded users for authentication
     const users = [
         { email: 'john.doe@northeastern.edu', password: 'password123' },
         { email: 'jane.smith@northeastern.edu', password: 'welcome456' },
         { email: 'test.user@northeastern.edu', password: 'testing789' }
     ];
 
-    // Validation state
     let isEmailValid = false;
     let isPasswordValid = false;
 
-    // Email validation function
     function validateEmail() {
         const email = $('#email').val().trim();
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -40,7 +37,6 @@ $(document).ready(function() {
         return true;
     }
 
-    // Password validation function
     function validatePassword() {
         const password = $('#password').val();
 
@@ -62,7 +58,6 @@ $(document).ready(function() {
         return true;
     }
 
-    // Update login button state
     function updateLoginButton() {
         if (isEmailValid && isPasswordValid) {
             $('#loginBtn').prop('disabled', false);
@@ -71,7 +66,6 @@ $(document).ready(function() {
         }
     }
 
-    // Email field event handlers
     $('#email').on('keyup', function() {
         validateEmail();
         updateLoginButton();
@@ -86,7 +80,6 @@ $(document).ready(function() {
         $('#emailError').text('');
     });
 
-    // Password field event handlers
     $('#password').on('keyup', function() {
         validatePassword();
         updateLoginButton();
@@ -101,15 +94,12 @@ $(document).ready(function() {
         $('#passwordError').text('');
     });
 
-    // Form submission
     $('#loginForm').on('submit', function(e) {
         e.preventDefault();
 
-        // Clear previous messages
         $('#loginError').text('');
         $('#loginSuccess').text('');
 
-        // Validate fields
         const emailValid = validateEmail();
         const passwordValid = validatePassword();
 
@@ -117,21 +107,17 @@ $(document).ready(function() {
             return;
         }
 
-        // Get form values
         const email = $('#email').val().trim();
         const password = $('#password').val();
         const rememberMe = $('#rememberMe').is(':checked');
 
-        // Check credentials
         const user = users.find(u => u.email === email && u.password === password);
 
         if (user) {
-            // Extract username from email
             const username = email.split('@')[0].replace('.', ' ').split(' ')
                 .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(' ');
 
-            // Create session data
             const sessionData = {
                 username: username,
                 email: email,
@@ -139,25 +125,20 @@ $(document).ready(function() {
                 isLoggedIn: true
             };
 
-            // Store in sessionStorage or localStorage
             const storage = rememberMe ? localStorage : sessionStorage;
             storage.setItem('userSession', JSON.stringify(sessionData));
 
-            // Show success message with animation
             $('#loginSuccess').text('Login successful! Redirecting...').fadeIn(400);
 
-            // Redirect after 2 seconds
             setTimeout(function() {
                 window.location.href = 'calculator.html';
             }, 2000);
 
         } else {
-            // Show error message
             $('#loginError').text('Invalid email or password');
         }
     });
 
-    // Check if already logged in
     const sessionData = sessionStorage.getItem('userSession') || localStorage.getItem('userSession');
     if (sessionData) {
         const session = JSON.parse(sessionData);
