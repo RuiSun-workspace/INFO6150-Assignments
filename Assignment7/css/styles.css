@@ -170,7 +170,6 @@ p {
   color: #444;
 }
 
-/* Header（Flex #1） */
 .site-header {
   position: sticky;
   top: 0;
@@ -200,7 +199,6 @@ p {
   background: #f2f2f2;
 }
 
-/* Footer（Flex #2） */
 .site-footer {
   border-top: 1px solid #e8e8e8;
   background: #fff;
@@ -217,7 +215,6 @@ p {
   gap: 0.75rem;
 }
 
-/* 页面1：Hero（Grid #1） */
 .grid-hero {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
@@ -238,9 +235,30 @@ p {
 }
 .grid-hero .hero__image {
   grid-area: image;
-  min-height: 20rem;
+  position: relative;
+  min-height: 13.75rem; /* ↓ 从320减小到220 */
+  max-height: 17.5rem; /* 限制最大高度 */
   border-radius: 16px;
-  background: linear-gradient(120deg, rgba(209, 123, 15, 0.15), rgba(108, 74, 61, 0.15)), url("https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=1200&q=60") center/cover no-repeat;
+  overflow: hidden;
+}
+.grid-hero .hero__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(209, 123, 15, 0.15), rgba(108, 74, 61, 0.15));
+  pointer-events: none;
+}
+.grid-hero .hero__image img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+@media (min-width: 480px) {
+  .grid-hero .hero__image {
+    min-height: 11.25rem;
+  }
 }
 .grid-hero .hero__stats {
   grid-area: stats;
@@ -267,14 +285,12 @@ p {
   }
 }
 
-/* 页面1：Cards（Grid #2） */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1.5rem;
 }
 
-/* 页面2：Brew Grid（额外 Grid） + Tips（Flex #3） */
 .brew-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -287,13 +303,13 @@ p {
 .section--tips .tips-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem; /* Flex #3 */
+  gap: 1rem;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-/* Buttons（嵌套） */
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -326,7 +342,24 @@ p {
   background: transparent;
 }
 
-/* Card（占位选择器扩展） */
+/* Card */
+/* 统一卡片图片尺寸与裁剪 */
+.card img {
+  width: 100%;
+  height: 180px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+}
+
+.card--brew img {
+  height: 160px;
+  border-radius: 10px;
+}
+
+/* Brew card 样式 */
 .card--brew {
   border-left: 6px solid var(--color-accent);
 }

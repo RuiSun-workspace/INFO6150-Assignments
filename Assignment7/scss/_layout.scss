@@ -1,69 +1,69 @@
 @use "utilities" as *;
 
-/* Header（Flex #1） */
 .site-header{
   position:sticky; top:0; background:#fff; z-index:10; border-bottom:1px solid $gray-200;
   .header__inner{ @include center-flex(1rem); padding:.8rem 0; }
   .logo{ font-weight:700; }
   .nav{ display:flex; gap:.75rem;
-    &__link{ padding:.4rem .7rem; border-radius:8px;
-      &.is-active{ background: $gray-100; }
-    }
+    &__link{ padding:.4rem .7rem; border-radius:8px; &.is-active{ background:$gray-100; } }
   }
 }
 
-/* Footer（Flex #2） */
 .site-footer{
   border-top:1px solid $gray-200; background:#fff; padding:.8rem 0;
   .footer__inner{ @include center-flex(.75rem); }
   .footer__links{ display:flex; gap:.75rem; }
 }
 
-/* 页面1：Hero（Grid #1） */
 .grid-hero{
   display:grid; grid-template-columns:1.2fr .8fr;
   grid-template-areas:"text image" "stats image";
-  gap: $space-4; padding: $space-5 0;
+  gap:$space-4; padding:$space-5 0;
 
   .hero__text{ grid-area:text;
-    h1{ font-size: clamp(1.75rem, 1rem + 3vw, 3rem); }
+    h1{ font-size:clamp(1.75rem, 1rem + 3vw, 3rem); }
     .hero__cta{ display:flex; gap:.75rem; flex-wrap:wrap; }
   }
-  .hero__image{
-    grid-area:image; min-height: rem(320); border-radius: $radius;
-    background:
-      linear-gradient(120deg, rgba(209,123,15,.15), rgba(108,74,61,.15)),
-      url('https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=1200&q=60')
-      center/cover no-repeat;
+
+.hero__image {
+  grid-area: image;
+  position: relative;
+  min-height: rem(220); /* ↓ 从320减小到220 */
+  max-height: rem(280); /* 限制最大高度 */
+  border-radius: $radius;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(209,123,15,.15), rgba(108,74,61,.15));
+    pointer-events: none;
   }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  @include respond(sm) {
+    min-height: rem(180);
+  }
+}
+
+
   .hero__stats{
-    grid-area:stats; display:grid; grid-template-columns:repeat(3,1fr); gap: $space-3;
-    .stat{
-      @extend %card;
-      text-align:center;
-      strong{ font-size: rem(24); display:block; }
-    }
+    grid-area:stats; display:grid; grid-template-columns:repeat(3,1fr); gap:$space-3;
+    .stat{ @extend %card; text-align:center; strong{ font-size:rem(24); display:block; } }
   }
 
   @include respond(md){ grid-template-columns:1.1fr .9fr; }
   @include respond(sm){ grid-template-columns:1fr; grid-template-areas:"text" "image" "stats"; }
 }
 
-/* 页面1：Cards（Grid #2） */
-.card-grid{
-  display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr));
-  gap: $space-4;
-}
+.card-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:$space-4; }
 
-/* 页面2：Brew Grid（额外 Grid） + Tips（Flex #3） */
-.brew-grid{
-  display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
-  gap: $space-4;
-}
-.section--tips{
-  background: $gray-50;
-  .tips-list{
-    display:flex; flex-wrap:wrap; gap: $space-3; /* Flex #3 */
-    list-style:none; padding:0; margin:0;
-  }
-}
+.brew-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:$space-4; }
+.section--tips{ background:$gray-50; .tips-list{ display:flex; flex-wrap:wrap; gap:$space-3; list-style:none; padding:0; margin:0; } }
