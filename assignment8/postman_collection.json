@@ -1,0 +1,345 @@
+{
+  "info": {
+    "name": "Assignment 8 - User Management API",
+    "description": "Complete Postman collection for testing all API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Create User",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123!\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/create",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "create"]
+        },
+        "description": "Create a new user with full name, email, and password"
+      },
+      "response": []
+    },
+    {
+      "name": "2. Create User - Invalid Email",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"Jane Doe\",\n  \"email\": \"invalid-email\",\n  \"password\": \"SecurePass123!\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/create",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "create"]
+        },
+        "description": "Test validation with invalid email format"
+      },
+      "response": []
+    },
+    {
+      "name": "3. Create User - Weak Password",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"Bob Smith\",\n  \"email\": \"bob.smith@example.com\",\n  \"password\": \"weak\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/create",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "create"]
+        },
+        "description": "Test validation with weak password"
+      },
+      "response": []
+    },
+    {
+      "name": "4. Create User - Invalid Name",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"John123\",\n  \"email\": \"john123@example.com\",\n  \"password\": \"SecurePass123!\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/create",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "create"]
+        },
+        "description": "Test validation with invalid name (contains numbers)"
+      },
+      "response": []
+    },
+    {
+      "name": "5. Get All Users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/user/getAll",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "getAll"]
+        },
+        "description": "Retrieve all users from the database"
+      },
+      "response": []
+    },
+    {
+      "name": "6. Update User",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"fullName\": \"John Smith\",\n  \"password\": \"NewSecurePass123!\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/edit",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "edit"]
+        },
+        "description": "Update user's full name and/or password"
+      },
+      "response": []
+    },
+    {
+      "name": "7. Update User - Name Only",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"fullName\": \"John Williams\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/edit",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "edit"]
+        },
+        "description": "Update only the user's full name"
+      },
+      "response": []
+    },
+    {
+      "name": "8. Update User - Not Found",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"nonexistent@example.com\",\n  \"fullName\": \"Test User\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/edit",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "edit"]
+        },
+        "description": "Test update with non-existent user"
+      },
+      "response": []
+    },
+    {
+      "name": "9. Upload Image",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "email",
+              "value": "john.doe@example.com",
+              "type": "text"
+            },
+            {
+              "key": "image",
+              "type": "file",
+              "src": "",
+              "description": "Select a JPEG, PNG, or GIF image file"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/uploadImage",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "uploadImage"]
+        },
+        "description": "Upload an image for a user (JPEG, PNG, or GIF only)"
+      },
+      "response": []
+    },
+    {
+      "name": "10. Upload Image - Already Exists",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "email",
+              "value": "john.doe@example.com",
+              "type": "text"
+            },
+            {
+              "key": "image",
+              "type": "file",
+              "src": "",
+              "description": "Try uploading another image for same user"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/uploadImage",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "uploadImage"]
+        },
+        "description": "Test uploading second image for same user (should fail)"
+      },
+      "response": []
+    },
+    {
+      "name": "11. Upload Image - User Not Found",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "email",
+              "value": "nonexistent@example.com",
+              "type": "text"
+            },
+            {
+              "key": "image",
+              "type": "file",
+              "src": ""
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/uploadImage",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "uploadImage"]
+        },
+        "description": "Test image upload with non-existent user"
+      },
+      "response": []
+    },
+    {
+      "name": "12. Delete User",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"john.doe@example.com\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/delete",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "delete"]
+        },
+        "description": "Delete a user by email"
+      },
+      "response": []
+    },
+    {
+      "name": "13. Delete User - Not Found",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"nonexistent@example.com\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/user/delete",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["user", "delete"]
+        },
+        "description": "Test delete with non-existent user"
+      },
+      "response": []
+    }
+  ]
+}
