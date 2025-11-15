@@ -153,14 +153,6 @@ const CompanyShowcase = () => {
           </>
         )}
 
-        {/* Info Section */}
-        <Paper sx={{ p: 3, mt: 4, backgroundColor: 'info.light' }}>
-          <Typography variant="body1" color="text.secondary">
-            <strong>Note:</strong> Company images are fetched from the backend API. 
-            Make sure your Assignment 8 backend server is running on port 3000 and users 
-            have uploaded images using the <code>/user/uploadImage</code> endpoint.
-          </Typography>
-        </Paper>
       </Container>
     </>
   );

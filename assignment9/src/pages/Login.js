@@ -149,12 +149,6 @@ const Login = () => {
               {loading ? 'Signing In...' : 'Sign In'}
             </Button>
 
-            <Box sx={{ mt: 2, p: 2, backgroundColor: 'info.light', borderRadius: 1 }}>
-              <Typography variant="body2" color="text.secondary">
-                <strong>Note:</strong> Use credentials from Assignment 8. 
-                No sign-up required.
-              </Typography>
-            </Box>
           </Box>
         </Paper>
       </Box>
