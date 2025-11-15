@@ -32,7 +32,7 @@ A comprehensive job portal application built with React, Material UI, and Axios.
 - **Axios** (v1.7.9) - HTTP client for API requests
 - **Emotion** - CSS-in-JS styling solution
 
-##  Available Pages
+## 📄 Available Pages
 
 ### 1. Login (`/login`)
 - User authentication using Assignment 8 credentials
@@ -152,20 +152,5 @@ The application connects to the Assignment 8 backend API at `http://localhost:30
 - Mobile-first approach
 - Breakpoints for different screen sizes
 - Collapsible navigation on mobile
-
-## 🎨 Styling Approach
-
-- Material UI theme customization
-- Gradient backgrounds for headers
-- Consistent color scheme (primary: #667eea, secondary: #764ba2)
-- Hover effects on interactive elements
-- Card shadows and transitions
-
-## 🔒 Security Features
-
-- Protected routes requiring authentication
-- Session validation
-- Logout functionality on all pages
-- Secure password field with visibility toggle
 
 
